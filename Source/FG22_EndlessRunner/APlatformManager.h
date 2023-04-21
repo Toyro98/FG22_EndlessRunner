@@ -22,13 +22,14 @@ public:
 	FVector NextSpawnLocation = FVector();
 
 	UPROPERTY(VisibleAnywhere)
-	double TimeSinceLastPlatformTeleport = 0.0f;
+	float TimeSinceLastPlatformTeleport = 0.0f;
 
 	UPROPERTY(VisibleAnywhere)
-	double PlatformSizeY = 0.0f;
+	float PlatformSizeY = 0.0f;
 
 	void MovePlatform(AActor* PlatformActor);
 
+	void SetVisibilityOnObstacle(AActor* PlatformActor);
 protected:
 	virtual void BeginPlay() override;
 
