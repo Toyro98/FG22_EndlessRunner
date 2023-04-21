@@ -5,10 +5,12 @@ AAPlatform::AAPlatform()
 {
 	SceneRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootScene"));
 	PlatformMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlatformMesh"));
+	Obstacles = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Obstacles"));
 	TriggerComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 
 	SceneRootComponent->SetupAttachment(RootComponent);
 	PlatformMeshComponent->SetupAttachment(SceneRootComponent);
+	Obstacles->SetupAttachment(SceneRootComponent);
 	TriggerComponent->SetupAttachment(PlatformMeshComponent);
 
 	TriggerComponent->OnComponentBeginOverlap.AddDynamic(this, &AAPlatform::OnOverlapBegin);
@@ -25,7 +27,9 @@ void AAPlatform::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor
 
 	if (GetWorld()->TimeSeconds - PlatformManager->TimeSinceLastPlatformTeleport > 0.1f)
 	{
+		Character->IncreaseCharacterSpeed(20.f);
 		PlatformManager->MovePlatform(this);
+		PlatformManager->SetVisibilityOnObstacle(this);
 	}
 }
 
