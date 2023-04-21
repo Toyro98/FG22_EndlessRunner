@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Kismet/GameplayStatics.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -32,7 +33,7 @@ AFG22_EndlessRunnerCharacter::AFG22_EndlessRunnerCharacter()
 	// instead of recompiling to adjust them
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MaxWalkSpeed = 700.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
@@ -121,4 +122,19 @@ void AFG22_EndlessRunnerCharacter::Tick(float Deltatime)
 		// add movement 
 		AddMovementInput(ForwardDirection, 1);
 	}
+}
+
+void AFG22_EndlessRunnerCharacter::TakeDamage()
+{
+	LivesLeft--;
+
+	if (LivesLeft <= 0)
+	{
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+	}
+}
+
+void AFG22_EndlessRunnerCharacter::IncreaseCharacterSpeed(float InAmount)
+{
+	GetCharacterMovement()->MaxWalkSpeed += InAmount;
 }

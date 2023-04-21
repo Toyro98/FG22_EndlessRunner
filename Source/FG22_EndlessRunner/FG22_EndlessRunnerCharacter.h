@@ -36,6 +36,14 @@ class AFG22_EndlessRunnerCharacter : public ACharacter
 public:
 	AFG22_EndlessRunnerCharacter();
 	
+	UPROPERTY(VisibleAnywhere)
+	uint8 LivesLeft = 3;
+
+	UFUNCTION()
+	void TakeDamage();
+
+	UFUNCTION()
+	void IncreaseCharacterSpeed(float InAmount);
 
 protected:
 
