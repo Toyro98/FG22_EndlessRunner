@@ -46,3 +46,16 @@ void AAPlatformManager::MovePlatform(AActor* PlatformActor)
 
 	TimeSinceLastPlatformTeleport = GetWorld()->TimeSeconds;
 }
+
+void AAPlatformManager::SetVisibilityOnObstacle(AActor* PlatformActor)
+{
+	USceneComponent* Obstacles = PlatformActor->GetRootComponent()->GetChildComponent(1);
+
+	for (size_t i = 0; i < Obstacles->GetNumChildrenComponents(); i++)
+	{
+		Obstacles->GetChildComponent(i)->SetVisibility(false, true);
+	}
+
+	uint32 Index = FMath::FRandRange(0, Obstacles->GetNumChildrenComponents());
+	Obstacles->GetChildComponent(Index)->SetVisibility(true, true);
+}
