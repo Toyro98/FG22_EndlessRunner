@@ -1,17 +1,12 @@
 # FG22_EndlessRunner
-This project uses no BluePrints and they are only used as prefabs, the rest is made in cpp.
+Endless runner avoiding blue boxes
 
-# How It Works
-We first create x amount of empty platforms. When player touches a platform's trigger, the platform are moved further ahead and picks one random obstacle from an array of obstacles. 
-The player moves at a constant speed and after a platform moves, the speed increases by a set amount. Touching an obstacle removes one live from player and if player has 0 lives left, it calls 2 functions to reset the platform manager and the player using the AActor's virtual Reset().
+# Part 1
+### APlatform
+Creates a few defaultsubobjects to be able to create the platform mesh in the BluePrint and use it for the APlatformManager to spawn it. Has a trigger that only works for the character and increases character speed by a set amount. It also call 2 functions in the APlatformManager.
 
-# Known issues in Part 1
-- Holding down space to jump carries over the speed after a reset
-- Pressing A then D then A repetelty makes the characther slow down
+### APlatformManager
+Responsable for creating x amount of platforms at the start, moving them and setting visibility on a platforms obstacle. All variables are exposed to the editor and only a few can be changes. Uses the Reset() which is found in AActor.
 
-# Todo in Part 2
-- Fix the issues in Part 1
-- Add a score system
-- Add UI showing your health and the score
-- Add a main menu explaining the controls and a button to start
-- Add a pause menu
+### Obstacle
+Used in a prefab and creates a StaticMeshComponent and a BoxComponent attached to the mesh. I added a OnOverlapBegin function to apply damage to player if condition is met.
