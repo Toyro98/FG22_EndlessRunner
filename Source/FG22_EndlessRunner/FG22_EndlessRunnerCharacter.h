@@ -5,8 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "APlatformManager.h"
 #include "FG22_EndlessRunnerCharacter.generated.h"
 
+class AAPlatformMannager;
 
 UCLASS(config=Game)
 class AFG22_EndlessRunnerCharacter : public ACharacter
@@ -39,6 +41,12 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	uint8 LivesLeft = 3;
 
+	UPROPERTY(VisibleAnywhere)
+	FVector SpawnLocation;
+
+	UPROPERTY(EditAnywhere)
+	AAPlatformManager* PlatformManager;
+
 	UFUNCTION()
 	void TakeDamage();
 
@@ -58,6 +66,8 @@ protected:
 	virtual void BeginPlay();
 
 	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void Reset() override;
 
 public:
 	/** Returns CameraBoom subobject **/

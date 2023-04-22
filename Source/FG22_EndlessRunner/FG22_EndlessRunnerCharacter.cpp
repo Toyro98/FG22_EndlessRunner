@@ -67,6 +67,9 @@ void AFG22_EndlessRunnerCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	SpawnLocation = GetActorLocation();
+	PlatformManager = Cast<AAPlatformManager>(UGameplayStatics::GetActorOfClass(GetWorld(), AAPlatformManager::StaticClass()));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -130,11 +133,19 @@ void AFG22_EndlessRunnerCharacter::TakeDamage()
 
 	if (LivesLeft <= 0)
 	{
-		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+		Reset();
+		PlatformManager->ResetManager();
 	}
 }
 
 void AFG22_EndlessRunnerCharacter::IncreaseCharacterSpeed(float InAmount)
 {
 	GetCharacterMovement()->MaxWalkSpeed += InAmount;
+}
+
+void AFG22_EndlessRunnerCharacter::Reset()
+{
+	LivesLeft = 3;
+	GetCharacterMovement()->MaxWalkSpeed = 700;
+	SetActorLocation(SpawnLocation);
 }

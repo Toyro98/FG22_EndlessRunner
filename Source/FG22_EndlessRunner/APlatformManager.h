@@ -29,9 +29,14 @@ public:
 
 	void MovePlatform(AActor* PlatformActor);
 
+	void SpawnPlatforms(uint8 InAmount);
+
 	void SetVisibilityOnObstacle(AActor* PlatformActor);
+
+	void ResetManager();
+
 protected:
 	virtual void BeginPlay() override;
 
-	void SpawnPlatforms(uint8 InAmount);
+	virtual void Reset() override;
 };
