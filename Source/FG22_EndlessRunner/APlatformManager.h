@@ -15,6 +15,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> Platform;
 
+	UPROPERTY(VisibleAnywhere)
+	TArray<USceneComponent*> SpawnedPlatforms;
+
 	UPROPERTY(EditAnywhere)
 	uint8 AmountOfPlatformsToSpawn = 6;
 

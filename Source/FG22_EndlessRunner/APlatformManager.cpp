@@ -34,6 +34,8 @@ void AAPlatformManager::SpawnPlatforms(uint8 InAmount)
 		{
 			PlatformSizeY = ArrowComponent->GetComponentLocation().Y;
 		}
+
+		SpawnedPlatforms.Add(SpawnedPlatform->GetRootComponent());
 	}
 
 	NextSpawnLocation = FVector(0.0, NextSpawnLocation.Y, 0.0);
