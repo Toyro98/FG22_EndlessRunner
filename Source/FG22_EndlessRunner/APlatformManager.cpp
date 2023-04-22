@@ -27,7 +27,7 @@ void AAPlatformManager::SpawnPlatforms(uint8 InAmount)
 		SpawnedPlatform->SetPlatformManager(this);
 		PlatformLocation = SpawnedPlatform->GetActorLocation();
 
-		SpawnedPlatform->SetActorLocation(FVector(PlatformLocation.X, PlatformLocation.Y + NextSpawnLocation.Y, PlatformLocation.Z));
+		SpawnedPlatform->SetActorLocation(FVector(PlatformLocation.X, PlatformLocation.Y + NextSpawnLocation.Y, 0.0));
 		NextSpawnLocation = ArrowComponent->GetComponentLocation();
 
 		if (i == 0)
