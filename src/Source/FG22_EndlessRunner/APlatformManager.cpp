@@ -15,8 +15,8 @@ void AAPlatformManager::BeginPlay()
 
 void AAPlatformManager::SpawnPlatforms(uint8 InAmount)
 {
-	AAPlatform* SpawnedPlatform = nullptr;
-	USceneComponent* ArrowComponent = nullptr;
+	TObjectPtr<AAPlatform> SpawnedPlatform = nullptr;
+	TObjectPtr<USceneComponent> ArrowComponent = nullptr;
 	FVector PlatformLocation;
 
 	for (size_t i = 0; i < InAmount; i++)
@@ -41,7 +41,7 @@ void AAPlatformManager::SpawnPlatforms(uint8 InAmount)
 	NextSpawnLocation = FVector(0.0, NextSpawnLocation.Y, 0.0);
 }
 
-void AAPlatformManager::MovePlatform(AActor* PlatformActor)
+void AAPlatformManager::MovePlatform(TObjectPtr<AActor> PlatformActor)
 {
 	PlatformActor->SetActorLocation(NextSpawnLocation);
 	NextSpawnLocation = FVector(NextSpawnLocation.X, NextSpawnLocation.Y + PlatformSizeY, 0.0);
@@ -49,9 +49,9 @@ void AAPlatformManager::MovePlatform(AActor* PlatformActor)
 	TimeSinceLastPlatformTeleport = GetWorld()->TimeSeconds;
 }
 
-void AAPlatformManager::SetVisibilityOnObstacle(AActor* PlatformActor)
+void AAPlatformManager::SetVisibilityOnObstacle(TObjectPtr<AActor> PlatformActor)
 {
-	USceneComponent* Obstacles = PlatformActor->GetRootComponent()->GetChildComponent(1);
+	TObjectPtr<USceneComponent> Obstacles = PlatformActor->GetRootComponent()->GetChildComponent(1);
 
 	for (size_t i = 0; i < Obstacles->GetNumChildrenComponents(); i++)
 	{
@@ -62,11 +62,6 @@ void AAPlatformManager::SetVisibilityOnObstacle(AActor* PlatformActor)
 	Obstacles->GetChildComponent(Index)->SetVisibility(true, true);
 }
 
-void AAPlatformManager::ResetManager()
-{
-	Reset();
-}
-
 void AAPlatformManager::Reset()
 {
 	NextSpawnLocation = FVector().ZeroVector;
@@ -74,8 +69,7 @@ void AAPlatformManager::Reset()
 
 	for (size_t i = 0; i < SpawnedPlatforms.Num(); i++)
 	{
-		// Hide all 
-		USceneComponent* Obstacles = SpawnedPlatforms[i]->GetChildComponent(1);
+		TObjectPtr<USceneComponent> Obstacles = SpawnedPlatforms[i]->GetChildComponent(1);
 
 		for (size_t j = 0; j < Obstacles->GetNumChildrenComponents(); j++)
 		{

@@ -45,7 +45,7 @@ public:
 	FVector SpawnLocation;
 
 	UPROPERTY(EditAnywhere)
-	AAPlatformManager* PlatformManager;
+	TObjectPtr<AAPlatformManager> PlatformManager;
 
 	UFUNCTION()
 	void TakeDamage();

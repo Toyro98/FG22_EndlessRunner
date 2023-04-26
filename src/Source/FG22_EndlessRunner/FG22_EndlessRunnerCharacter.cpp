@@ -134,7 +134,7 @@ void AFG22_EndlessRunnerCharacter::TakeDamage()
 	if (LivesLeft <= 0)
 	{
 		Reset();
-		PlatformManager->ResetManager();
+		PlatformManager->Reset();
 	}
 }
 

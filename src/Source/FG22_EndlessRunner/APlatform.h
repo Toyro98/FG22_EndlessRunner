@@ -20,25 +20,22 @@ public:
 	AAPlatform();
 
 	UPROPERTY(VisibleAnywhere)
-	USceneComponent* SceneRootComponent;
+	TObjectPtr<USceneComponent> SceneRootComponent;
 
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* PlatformMeshComponent;
+	TObjectPtr<UStaticMeshComponent> PlatformMeshComponent;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* Obstacles;
+	TObjectPtr<UStaticMeshComponent> Obstacles;
 
 	UPROPERTY(VisibleAnywhere)
-	UBoxComponent* TriggerComponent;
-
-	UPROPERTY(VisibleAnywhere)
-	uint32 LastActivatedObstacleNum = -1;
+	TObjectPtr<UBoxComponent> TriggerComponent;
 
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	void SetPlatformManager(AAPlatformManager* InPlatformManager);
+	void SetPlatformManager(TObjectPtr<AAPlatformManager> InPlatformManager);
 
 private:
-	class AAPlatformManager* PlatformManager = nullptr;
+	TObjectPtr<class AAPlatformManager> PlatformManager = nullptr;
 };

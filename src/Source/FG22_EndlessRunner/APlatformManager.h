@@ -16,7 +16,7 @@ public:
 	TSubclassOf<AActor> Platform;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<USceneComponent*> SpawnedPlatforms;
+	TArray<TObjectPtr<USceneComponent>> SpawnedPlatforms;
 
 	UPROPERTY(EditAnywhere)
 	uint8 AmountOfPlatformsToSpawn = 6;
@@ -30,16 +30,14 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	float PlatformSizeY = 0.0f;
 
-	void MovePlatform(AActor* PlatformActor);
+	void MovePlatform(TObjectPtr<AActor> PlatformActor);
 
 	void SpawnPlatforms(uint8 InAmount);
 
-	void SetVisibilityOnObstacle(AActor* PlatformActor);
+	void SetVisibilityOnObstacle(TObjectPtr<AActor> PlatformActor);
 
-	void ResetManager();
+	virtual void Reset() override;
 
 protected:
 	virtual void BeginPlay() override;
-
-	virtual void Reset() override;
 };
