@@ -47,6 +47,10 @@ void AAPlatformManager::MovePlatform(TObjectPtr<AActor> PlatformActor)
 	NextSpawnLocation = FVector(NextSpawnLocation.X, NextSpawnLocation.Y + PlatformSizeY, 0.0);
 
 	TimeSinceLastPlatformTeleport = GetWorld()->TimeSeconds;
+
+	// Update Score
+	Score += 10;
+	PlayerHud->SetScoreText(Score);
 }
 
 void AAPlatformManager::SetVisibilityOnObstacle(TObjectPtr<AActor> PlatformActor)
@@ -78,4 +82,7 @@ void AAPlatformManager::Reset()
 
 		MovePlatform(SpawnedPlatforms[i]->GetAttachmentRootActor());
 	}
+
+	Score = 0;
+	PlayerHud->SetScoreText(Score);
 }
