@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyHUD.h"
 #include "APlatformManager.generated.h"
 
 UCLASS()
@@ -32,7 +31,7 @@ public:
 	float PlatformSizeY = 0.0f;
 
 	UPROPERTY(EditAnywhere)
-	TObjectPtr<AMyHUD> PlayerHud;
+	TObjectPtr<AActor> PlayerHud;
 
 	void MovePlatform(TObjectPtr<AActor> PlatformActor);
 
