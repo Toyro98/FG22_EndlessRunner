@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -59,8 +60,12 @@ void AFG22_EndlessRunnerCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
-	//Add Input Mapping Context
-	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	SpawnLocation = GetActorLocation();
+	PlatformManager = Cast<AAPlatformManager>(UGameplayStatics::GetActorOfClass(GetWorld(), AAPlatformManager::StaticClass()));
+	APlayerController* PlayerController = Cast<APlayerController>(Controller);
+
+	// Add Input Mapping Context
+	if (PlayerController)
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
@@ -68,8 +73,15 @@ void AFG22_EndlessRunnerCharacter::BeginPlay()
 		}
 	}
 
-	SpawnLocation = GetActorLocation();
-	PlatformManager = Cast<AAPlatformManager>(UGameplayStatics::GetActorOfClass(GetWorld(), AAPlatformManager::StaticClass()));
+	// Hud
+	if (PlayerHudClass)
+	{
+		PlayerHud = CreateWidget<UMyUserWidget>(PlayerController, PlayerHudClass);
+		PlayerHud->AddToPlayerScreen();
+		PlayerHud->SetHealthText(LivesLeft);
+	}
+
+	PlatformManager->PlayerHud = PlayerHud;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -136,6 +148,8 @@ void AFG22_EndlessRunnerCharacter::TakeDamage()
 		Reset();
 		PlatformManager->Reset();
 	}
+
+	PlayerHud->SetHealthText(LivesLeft);
 }
 
 void AFG22_EndlessRunnerCharacter::IncreaseCharacterSpeed(float InAmount)
@@ -148,4 +162,6 @@ void AFG22_EndlessRunnerCharacter::Reset()
 	LivesLeft = 3;
 	GetCharacterMovement()->MaxWalkSpeed = 700;
 	SetActorLocation(SpawnLocation);
+
+	PlayerHud->SetHealthText(LivesLeft);
 }
