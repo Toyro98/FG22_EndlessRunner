@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "APlatformManager.h"
+#include "MyUserWidget.h"
 #include "FG22_EndlessRunnerCharacter.generated.h"
 
 class AAPlatformMannager;
@@ -74,5 +75,11 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UMyUserWidget> PlayerHudClass;
+
+	UPROPERTY()
+	class UMyUserWidget* PlayerHud;
 };
 
