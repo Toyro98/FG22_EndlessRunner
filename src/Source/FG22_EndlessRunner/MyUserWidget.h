@@ -16,11 +16,15 @@ class FG22_ENDLESSRUNNER_API UMyUserWidget : public UUserWidget
 
 public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UTextBlock> HighScore;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UTextBlock> Score;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UTextBlock> Health;
 
+	void SetHighScoreText(uint32 InScore);
 	void SetScoreText(uint32 InScore);
 	void SetHealthText(uint32 InHealth);
 };

@@ -48,8 +48,7 @@ void AAPlatformManager::MovePlatform(TObjectPtr<AActor> PlatformActor)
 
 	TimeSinceLastPlatformTeleport = GetWorld()->TimeSeconds;
 
-	// Update Score
-	Score += 10;
+	Score++;
 	PlayerHud->SetScoreText(Score);
 }
 
@@ -70,6 +69,12 @@ void AAPlatformManager::Reset()
 {
 	NextSpawnLocation = FVector().ZeroVector;
 	TimeSinceLastPlatformTeleport = 0.0f;
+
+	if (Score > HighScore)
+	{
+		HighScore = Score;
+		PlayerHud->SetHighScoreText(HighScore);
+	}
 
 	for (size_t i = 0; i < SpawnedPlatforms.Num(); i++)
 	{

@@ -148,8 +148,10 @@ void AFG22_EndlessRunnerCharacter::TakeDamage()
 		Reset();
 		PlatformManager->Reset();
 	}
-
-	PlayerHud->SetHealthText(LivesLeft);
+	else
+	{
+		PlayerHud->SetHealthText(LivesLeft);
+	}
 }
 
 void AFG22_EndlessRunnerCharacter::IncreaseCharacterSpeed(float InAmount)
