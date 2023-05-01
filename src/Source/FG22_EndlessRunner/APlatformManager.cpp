@@ -72,12 +72,14 @@ void AAPlatformManager::Reset()
 	NextSpawnLocation = FVector().ZeroVector;
 	TimeSinceLastPlatformTeleport = 0.0f;
 
-	if (Score > HighScore)
-	{
-		HighScore = Score;
-		PlayerHud->SetHighScoreText(HighScore);
+	SaveGame();
 
-		SaveGame();
+	if (HighScores.Num() != 0)
+	{
+		if (Score >= HighScores[0])
+		{
+			PlayerHud->SetHighScoreText(HighScores[0]);
+		}
 	}
 
 	for (size_t i = 0; i < SpawnedPlatforms.Num(); i++)
@@ -96,19 +98,40 @@ void AAPlatformManager::Reset()
 	PlayerHud->SetScoreText(Score);
 }
 
+static bool Compare(const uint32& a, const uint32& b)
+{
+	return a > b;
+}
+
 void AAPlatformManager::SaveGame()
 {
 	TObjectPtr<UERSaveGame> SaveGame = Cast<UERSaveGame>(UGameplayStatics::CreateSaveGameObject(UERSaveGame::StaticClass()));
-	SaveGame->HighScore = HighScore;
 
-	if (UGameplayStatics::SaveGameToSlot(SaveGame, SaveGame->SaveSlotName, 0))
+	if (Score <= 0)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Saved Successfully!"));
+		return;
+	}
+
+	if (HighScores.Num() != 10)
+	{
+		HighScores.Add(Score);
+		Algo::Sort(HighScores, Compare);
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Game Saved Failed!"));
+		for (int i = 9; i >= 0; i--)
+		{
+			if (HighScores[i] >= Score)
+			{
+				HighScores[i] = Score;
+				break;
+			}
+		}
 	}
+
+	SaveGame->HighScores = HighScores;
+
+	UGameplayStatics::SaveGameToSlot(SaveGame, SaveGame->SaveSlotName, 0);
 }
 
 void AAPlatformManager::LoadGame()
@@ -118,11 +141,6 @@ void AAPlatformManager::LoadGame()
 
 	if (SaveGame)
 	{
-		HighScore = SaveGame->HighScore;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Loaded Successfully!"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Game Load Failed!"));
+		HighScores = SaveGame->HighScores;
 	}
 }

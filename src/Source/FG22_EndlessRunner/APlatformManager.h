@@ -35,7 +35,7 @@ public:
 	uint32 Score = 0;
 
 	UPROPERTY(VisibleAnywhere)
-	uint32 HighScore = 0;
+	TArray<uint32> HighScores;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<class UMyUserWidget> PlayerHud;
