@@ -83,7 +83,7 @@ void AFG22_EndlessRunnerCharacter::BeginPlay()
 
 	// Load save game and update the highscore
 	// We do it here as then we know the playerhud has loaded
-	PlatformManager->Load();
+	PlatformManager->LoadGame();
 	PlatformManager->PlayerHud = PlayerHud;
 	PlatformManager->PlayerHud->SetHighScoreText(PlatformManager->HighScore);
 }

@@ -77,7 +77,7 @@ void AAPlatformManager::Reset()
 		HighScore = Score;
 		PlayerHud->SetHighScoreText(HighScore);
 
-		Save();
+		SaveGame();
 	}
 
 	for (size_t i = 0; i < SpawnedPlatforms.Num(); i++)
