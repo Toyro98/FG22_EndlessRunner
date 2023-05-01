@@ -46,6 +46,10 @@ public:
 
 	void SetVisibilityOnObstacle(TObjectPtr<AActor> PlatformActor);
 
+	void SaveGame();
+
+	void LoadGame();
+
 	virtual void Reset() override;
 
 protected:

@@ -1,5 +1,7 @@
 #include "APlatformManager.h"
 #include "APlatform.h"
+#include "ERSaveGame.h"
+#include "Kismet/GameplayStatics.h"
 
 AAPlatformManager::AAPlatformManager()
 {
@@ -74,6 +76,8 @@ void AAPlatformManager::Reset()
 	{
 		HighScore = Score;
 		PlayerHud->SetHighScoreText(HighScore);
+
+		SaveGame();
 	}
 
 	for (size_t i = 0; i < SpawnedPlatforms.Num(); i++)
@@ -90,4 +94,35 @@ void AAPlatformManager::Reset()
 
 	Score = 0;
 	PlayerHud->SetScoreText(Score);
+}
+
+void AAPlatformManager::SaveGame()
+{
+	TObjectPtr<UERSaveGame> SaveGame = Cast<UERSaveGame>(UGameplayStatics::CreateSaveGameObject(UERSaveGame::StaticClass()));
+	SaveGame->HighScore = HighScore;
+
+	if (UGameplayStatics::SaveGameToSlot(SaveGame, SaveGame->SaveSlotName, 0))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Saved Successfully!"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Game Saved Failed!"));
+	}
+}
+
+void AAPlatformManager::LoadGame()
+{
+	TObjectPtr<UERSaveGame> SaveGame = Cast<UERSaveGame>(UGameplayStatics::CreateSaveGameObject(UERSaveGame::StaticClass()));
+	SaveGame = Cast<UERSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGame->SaveSlotName, 0));
+
+	if (SaveGame)
+	{
+		HighScore = SaveGame->HighScore;
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Loaded Successfully!"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Game Load Failed!"));
+	}
 }
