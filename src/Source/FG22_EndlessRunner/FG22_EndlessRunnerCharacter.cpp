@@ -85,7 +85,15 @@ void AFG22_EndlessRunnerCharacter::BeginPlay()
 	// We do it here as then we know the playerhud has loaded
 	PlatformManager->LoadGame();
 	PlatformManager->PlayerHud = PlayerHud;
-	PlatformManager->PlayerHud->SetHighScoreText(PlatformManager->HighScore);
+
+	uint32 HighScore = 0;
+
+	if (PlatformManager->HighScores.Num() > 0)
+	{
+		HighScore = PlatformManager->HighScores[0];
+	}
+
+	PlatformManager->PlayerHud->SetHighScoreText(HighScore);
 }
 
 //////////////////////////////////////////////////////////////////////////

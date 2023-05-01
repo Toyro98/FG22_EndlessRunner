@@ -17,5 +17,5 @@ public:
 	FString SaveSlotName;
 
 	UPROPERTY(VisibleAnywhere)
-	uint32 HighScore;
+	TArray<uint32> HighScores;
 };

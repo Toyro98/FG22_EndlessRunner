@@ -2,6 +2,5 @@
 
 UERSaveGame::UERSaveGame()
 {
-	HighScore = 0;
 	SaveSlotName = TEXT("save");
 }
