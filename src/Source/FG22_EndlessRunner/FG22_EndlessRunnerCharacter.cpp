@@ -81,7 +81,11 @@ void AFG22_EndlessRunnerCharacter::BeginPlay()
 		PlayerHud->SetHealthText(LivesLeft);
 	}
 
+	// Load save game and update the highscore
+	// We do it here as then we know the playerhud has loaded
+	PlatformManager->Load();
 	PlatformManager->PlayerHud = PlayerHud;
+	PlatformManager->PlayerHud->SetHighScoreText(PlatformManager->HighScore);
 }
 
 //////////////////////////////////////////////////////////////////////////
