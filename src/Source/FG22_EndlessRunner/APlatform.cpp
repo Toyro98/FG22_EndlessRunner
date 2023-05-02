@@ -27,7 +27,7 @@ void AAPlatform::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor
 
 	if (GetWorld()->TimeSeconds - PlatformManager->TimeSinceLastPlatformTeleport > 0.1f)
 	{
-		Character->IncreaseCharacterSpeed(20.f);
+		Character->IncreaseCharacterSpeed(10.f);
 		PlatformManager->MovePlatform(this);
 		PlatformManager->SetVisibilityOnObstacle(this);
 	}
