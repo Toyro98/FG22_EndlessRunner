@@ -16,6 +16,11 @@ void AObstacle::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 {
 	TObjectPtr<AFG22_EndlessRunnerCharacter> Character = Cast<AFG22_EndlessRunnerCharacter>(OtherActor);
 
+	if (GetWorld()->TimeSeconds < 15)
+	{
+		return;
+	}
+
 	if (Character && ObstacleMeshComponent->IsVisible())
 	{
 		Character->TakeDamage();
