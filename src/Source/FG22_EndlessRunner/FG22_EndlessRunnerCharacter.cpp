@@ -125,10 +125,12 @@ void AFG22_EndlessRunnerCharacter::Move(const FInputActionValue& Value)
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 	
 		// get right vector 
+		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
 		// add movement 
 		AddMovementInput(RightDirection, MovementVector.X);
+		AddMovementInput(ForwardDirection, 1);
 	}
 }
 
@@ -157,8 +159,8 @@ void AFG22_EndlessRunnerCharacter::TakeDamage()
 
 	if (LivesLeft <= 0)
 	{
-		Reset();
 		PlatformManager->Reset();
+		Reset();
 	}
 	else
 	{
