@@ -76,17 +76,17 @@ void AAPlatformManager::Reset()
 
 	if (HighScores.Num() != 0)
 	{
-		if (Score >= HighScores[0])
+		if (Score > HighScores[0])
 		{
 			PlayerHud->SetHighScoreText(HighScores[0]);
 		}
 	}
 
-	for (size_t i = 0; i < SpawnedPlatforms.Num(); i++)
+	for (int i = 0; i < SpawnedPlatforms.Num(); i++)
 	{
 		TObjectPtr<USceneComponent> Obstacles = SpawnedPlatforms[i]->GetChildComponent(1);
 
-		for (size_t j = 0; j < Obstacles->GetNumChildrenComponents(); j++)
+		for (int j = 0; j < Obstacles->GetNumChildrenComponents(); j++)
 		{
 			Obstacles->GetChildComponent(j)->SetVisibility(false, true);
 		}
@@ -107,26 +107,20 @@ void AAPlatformManager::SaveGame()
 {
 	TObjectPtr<UERSaveGame> SaveGame = Cast<UERSaveGame>(UGameplayStatics::CreateSaveGameObject(UERSaveGame::StaticClass()));
 
+	// Safety check
 	if (Score <= 0)
 	{
 		return;
 	}
 
-	if (HighScores.Num() != 10)
+	// Add the score to the highscores and sort it
+	HighScores.Add(Score);
+	Algo::Sort(HighScores, Compare);
+
+	// Remove the last elements if it's bigger than 10
+	if (HighScores.Num() > 10)
 	{
-		HighScores.Add(Score);
-		Algo::Sort(HighScores, Compare);
-	}
-	else
-	{
-		for (int i = 9; i >= 0; i--)
-		{
-			if (HighScores[i] >= Score)
-			{
-				HighScores[i] = Score;
-				break;
-			}
-		}
+		HighScores.RemoveAt(HighScores.Last(), HighScores.Num() - 10, true);
 	}
 
 	SaveGame->HighScores = HighScores;
