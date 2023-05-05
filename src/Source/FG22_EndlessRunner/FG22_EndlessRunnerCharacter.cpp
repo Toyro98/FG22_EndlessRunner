@@ -71,6 +71,9 @@ void AFG22_EndlessRunnerCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+
+		FInputModeGameOnly Input;
+		PlayerController->SetInputMode(Input);
 	}
 
 	// Hud
