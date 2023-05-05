@@ -74,14 +74,6 @@ void AAPlatformManager::Reset()
 
 	SaveGame();
 
-	if (HighScores.Num() != 0)
-	{
-		if (Score > HighScores[0])
-		{
-			PlayerHud->SetHighScoreText(HighScores[0]);
-		}
-	}
-
 	for (int i = 0; i < SpawnedPlatforms.Num(); i++)
 	{
 		TObjectPtr<USceneComponent> Obstacles = SpawnedPlatforms[i]->GetChildComponent(1);
@@ -96,6 +88,7 @@ void AAPlatformManager::Reset()
 
 	Score = 0;
 	PlayerHud->SetScoreText(Score);
+	PlayerHud->SetHighScoreText(HighScores[0]);
 }
 
 static bool Compare(const uint32& a, const uint32& b)
