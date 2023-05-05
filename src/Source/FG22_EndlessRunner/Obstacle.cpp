@@ -16,14 +16,15 @@ void AObstacle::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor*
 {
 	TObjectPtr<AFG22_EndlessRunnerCharacter> Character = Cast<AFG22_EndlessRunnerCharacter>(OtherActor);
 
-	if (GetWorld()->TimeSeconds < 15)
-	{
-		return;
-	}
-
 	if (Character && ObstacleMeshComponent->IsVisible())
 	{
-		Character->TakeDamage();
+		FString ScoreText = Character->PlayerHud->Score->GetText().ToString();
+		uint32 Score = FCString::Atoi(*ScoreText);
+
+		if (Score >= 6)
+		{
+			Character->TakeDamage();
+		}
 	}
 }
 
