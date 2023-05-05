@@ -6,9 +6,4 @@ void AUIMockupPlayerController::BeginPlay()
 
 	Widget = CreateWidget(this, WidgetClass);
 	Widget->AddToViewport();
-
-	/*FInputModeUIOnly Input;
-	Input.SetWidgetToFocus(Widget->GetCachedWidget());
-	Input.SetLockMouseToViewportBehavior(EMouseLockMode::LockOnCapture);
-	SetInputMode(Input);*/
 }
