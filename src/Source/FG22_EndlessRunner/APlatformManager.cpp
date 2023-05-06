@@ -15,13 +15,14 @@ void AAPlatformManager::BeginPlay()
 	SpawnPlatforms(AmountOfPlatformsToSpawn);
 }
 
+PRAGMA_DISABLE_OPTIMIZATION
 void AAPlatformManager::SpawnPlatforms(uint8 InAmount)
 {
 	TObjectPtr<AAPlatform> SpawnedPlatform = nullptr;
 	TObjectPtr<USceneComponent> ArrowComponent = nullptr;
-	FVector PlatformLocation;
+	FVector PlatformLocation = FVector().ZeroVector;
 
-	for (size_t i = 0; i < InAmount; i++)
+	for (int i = 0; i < InAmount; i++)
 	{
 		SpawnedPlatform = GetWorld()->SpawnActor<AAPlatform>(Platform, FVector(), FRotator());
 		ArrowComponent = SpawnedPlatform->GetRootComponent()->GetChildComponent(0)->GetChildComponent(3);
@@ -32,16 +33,13 @@ void AAPlatformManager::SpawnPlatforms(uint8 InAmount)
 		SpawnedPlatform->SetActorLocation(FVector(PlatformLocation.X, PlatformLocation.Y + NextSpawnLocation.Y, 0.0));
 		NextSpawnLocation = ArrowComponent->GetComponentLocation();
 
-		if (i == 0)
-		{
-			PlatformSizeY = ArrowComponent->GetComponentLocation().Y;
-		}
-
 		SpawnedPlatforms.Add(SpawnedPlatform->GetRootComponent());
 	}
 
+	PlatformSizeY = ArrowComponent->GetRelativeLocation().Y;
 	NextSpawnLocation = FVector(0.0, NextSpawnLocation.Y, 0.0);
 }
+PRAGMA_ENABLE_OPTIMIZATION
 
 void AAPlatformManager::MovePlatform(TObjectPtr<AActor> PlatformActor)
 {
